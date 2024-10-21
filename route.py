@@ -12,13 +12,13 @@ data = [
 def index():
     return "欢迎使用测试平台"
 
-@app.route('/api/data', methods=['GET'])
+@app.route('/api/getdata', methods=['GET'])
 def get_data():
     response.headers["Content-Type"] = "application/json; charset=utf-8"
     response = make_response(jsonify(data))
     return response
 
-@app.route('/api/data', methods=['POST'])
+@app.route('/api/postdata', methods=['POST'])
 def create_data():
     new_data = request.json
     data.append(new_data)
