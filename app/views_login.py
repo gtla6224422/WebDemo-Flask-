@@ -21,9 +21,10 @@ def login():
         user = models.User.query.filter_by(username=form.username.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             flash('Logged in successfully.', 'success')
-            return redirect(url_for('index'))
+            return redirect(url_for('login_bp.index'))
         else:
             flash('Invalid username or password.', 'danger')
+            return redirect(url_for('login_bp.login'))
     
     return render_template('login.html', form=form)
 
@@ -36,6 +37,6 @@ def register():
         models.db.session.add(new_user)
         models.db.session.commit()
         flash('Registration successful.', 'success')
-        return redirect(url_for('login'))
+        return redirect(url_for('login_bp.login'))
     
     return render_template('register.html', form=form)

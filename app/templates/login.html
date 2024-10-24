@@ -1,3 +1,4 @@
+<!-- templates/login.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,14 +30,14 @@
 <body>
     <div class="login-container">
         <h1 class="mb-3">Login</h1>
-        <form method="post">
+        <form method="post" action="{{ url_for('login_bp.login') }}">
             {{ form.hidden_tag() }}
             <div class="mb-3">
-                <label for="用户名" class="form-label">用户名:</label>
+                <label for="username" class="form-label">用户名:</label>
                 {{ form.username(class="form-control", id="username") }}
             </div>
             <div class="mb-3">
-                <label for="密码" class="form-label">密码:</label>
+                <label for="password" class="form-label">密码:</label>
                 {{ form.password(class="form-control", id="password") }}
             </div>
             <div class="d-grid">
