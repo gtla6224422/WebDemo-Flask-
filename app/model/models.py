@@ -15,3 +15,10 @@ class User(db.Model):
     user_status = db.Column(db.Integer, default=1)
     create_time = db.Column(db.TIMESTAMP, server_default=func.now())  # 添加 create_time 字段，默认值为当前时间戳
     last_update_time = db.Column(db.TIMESTAMP, server_default=func.now())  # 添加 last_update_time 字段，默认值为当前时间戳
+    
+    def action_to_dict(self):
+        return {
+            "id": self.id,
+            "username": self.username,
+            "role": self.role
+        }

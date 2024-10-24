@@ -6,15 +6,15 @@ from .form.forms import LoginForm, RegisterForm
 from flask_bcrypt import Bcrypt
 
 # 创建蓝图
-bp = Blueprint('main', __name__)
+login_bp = Blueprint('login_bp', __name__)
 
 bcrypt = Bcrypt()
 
-@bp.route('/')
+@login_bp.route('/')
 def index():
     return render_template('index.html')
 
-@bp.route('/login', methods=['GET', 'POST'])
+@login_bp.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
@@ -27,7 +27,7 @@ def login():
     
     return render_template('login.html', form=form)
 
-@bp.route('/register', methods=['GET', 'POST'])
+@login_bp.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
