@@ -4,8 +4,11 @@ from flask import Flask
 from .conf.config import Config
 from .model.models import db
 from .views_login import login_bp,bcrypt # 导入蓝图
-from .views_action import action_bp # 导入蓝图
+#from .views_action import action_bp # 导入蓝图
 from flask_migrate import migrate
+import redis
+
+app = None
 
 def create_app():
     app = Flask(__name__)
@@ -21,8 +24,14 @@ def create_app():
     #migrate.init_app(app, db)
     migrate.__init__(app, db)
     
+    # 初始化 Redis
+    app.redis = redis.StrictRedis(host='1.14.155.39', port=6379, db=0,password='lo633533')
+
     # 注册蓝图
+    with app.app_context():
+        from .views_UserInfo import UserInfo_bp
+        app.register_blueprint(UserInfo_bp,__name__ = 'UserInfo_bp')
     app.register_blueprint(login_bp,__name__ = 'login_bp')
-    app.register_blueprint(action_bp,__name__ = 'action_bp')
+    #app.register_blueprint(action_bp,__name__ = 'action_bp')
     
     return app
