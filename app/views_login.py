@@ -1,4 +1,5 @@
 # app/views.py
+# coding=utf-8
 
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from .model import models  # 导入 models 模块

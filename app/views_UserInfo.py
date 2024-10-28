@@ -1,4 +1,5 @@
 # app/views_action.py
+# coding=utf-8
 
 from flask import Blueprint, request, jsonify,json,current_app
 from .model.models import User # 导入 models 模块
@@ -45,7 +46,7 @@ def GetUserInfo():
     # 生成缓存键
     cache_key = f'users_with_role:{role}'
    
-     # 尝试从 Redis 中获取数据
+     # 从 Redis 中获取数据
     cached_data = current_app.redis.get(cache_key)
     if cached_data:
         return jsonify(json.loads(cached_data.decode('utf-8'))), 200
