@@ -13,9 +13,12 @@ def get_user():
     role = request.args.get('role', type=int)
     
     if id is None or role is None:
-        return jsonify({"error": "Missing required parameters"}), 400
+        return jsonify({
+            "status_code": 10001,
+            "error": "Missing required parameters"
+            }), 400
     
-    # 模拟数据查询
+    # 模拟数据查询，入参传什么就返回什么
     user_data = {
         "id": id,
         "role": role,
@@ -29,19 +32,28 @@ def get_user():
 def GetUserInfo():
      # 获取 JSON 数据
     if not request.is_json:
-        return jsonify({"error": "Request must be JSON"}), 400
+        return jsonify({
+            "status_code": 10002,
+            "error": "请求必须是 JSON 格式"
+            }), 400
     
     data = request.get_json()
     
     if not data or 'role' not in data:
-        return jsonify({"error": "Missing required fields"}), 400
+        return jsonify({
+            "status_code": 10003,
+            "error": "缺少必要字段"
+            }), 400
     try:
         #userid = int(data.get('userid'))
         #username = data.get('username')
         #id = int(data.get('id'))
         role = int(data.get('role'))
     except (ValueError, TypeError):
-        return jsonify({"error": "Invalid data types"}), 400
+        return jsonify({
+            "status_code": 10004,
+            "error": "无效的数据类型"
+            }), 400
     
     # 生成缓存键
     cache_key = f'users_with_role:{role}'
@@ -63,6 +75,9 @@ def GetUserInfo():
 
         return jsonify(user_dicts), 200
     else:
-        return jsonify({"error": "No users found with the specified role"}), 404
+        return jsonify({
+            "status_code": 10005,
+            "error": "未找到具有指定角色的用户"
+            }), 404
     
     return jsonify(user_data), 201
