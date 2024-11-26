@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify,json,current_app
 from .model.models import Order # 导入 models 模块
+
 from . import db
 
 Order_bp = Blueprint('order_bp', __name__)
@@ -33,9 +34,20 @@ def Create_order():
             "error": "无效的数据类型"
         }), 400
 
+    # 生成唯一的订单ID
+    order_id = Order().generate_order_id()
+
+    # 检查订单ID是否已存在
+    existing_order = Order.query.filter_by(order_id=order_id).first()
+    if existing_order:
+        return jsonify({
+            "status_code": 10006,
+            "error": "生成的订单号已存在"
+        }), 400
+
     # 创建新的订单记录
     new_order = Order(
-        order_id=Order().generate_order_id(),
+        order_id=order_id,
         custom_id=custom_id,
         order_cost=order_cost,
         insurance_cost=insurance_cost,
