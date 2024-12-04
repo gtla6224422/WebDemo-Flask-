@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify,json,current_app
 from .model.models import Order # 导入 models 模块
-
 from . import db
+import random
 
 Order_bp = Blueprint('order_bp', __name__)
 @Order_bp.route('/Create_order', methods=['POST'])
@@ -25,8 +25,8 @@ def Create_order():
         # 对入参json进行提取转换成入库字段
         
         custom_id = int(data.get('custom_id'))
-        order_cost = round(float(data.get('order_cost')), 2)
-        insurance_cost = round(float(data.get('insurance_cost')), 2)
+        order_cost = round(random.uniform(0, 1000), 2)  #先随机插入金额，方便测试，恢复正常入参取值：round(float(data.get('order_cost')), 2)
+        insurance_cost = round(random.uniform(0, 1000), 2)  #先随机插入金额，方便测试, 恢复正常入参取值：round(float(data.get('insurance_cost')), 2)
         insurance_type = int(data.get('insurance_type'))
     except (ValueError, TypeError):
         return jsonify({
@@ -44,6 +44,10 @@ def Create_order():
             "status_code": 10006,
             "error": "生成的订单号已存在"
         }), 400
+
+    # 生成随机的 order_cost 和 insurance_cost
+    order_cost = round(random.uniform(0, 1000), 2)
+    insurance_cost = round(random.uniform(0, 1000), 2)
 
     # 创建新的订单记录
     new_order = Order(

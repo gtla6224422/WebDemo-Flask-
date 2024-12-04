@@ -1,0 +1,74 @@
+{
+    "msg": "success",
+    "code": 200,
+    "actulSqlScript": " select  flow_source_nam\t\tflow_source_nam,\n\t\tpay_dt\t\tpay_dt,\n\t\tproduct_cd\t\tproduct_cd,\n\t\tsum(pr_gmv)\t\ttotal_gmv,\n\t\tsum(product_actual_amt)\t\ttotal_amv,\n\t\tsum(total_cost)\ttotal_cost,\n\t\tsum(product_pay_cnt)\t\tproduct_pay_cnt,\n\t\tsum(pr_gmv)\t\tpr_gmv,\n\t\tsum(pr_cnt)\t\tpr_cnt,\n\t\tsum(product_actual_amt)\t\tpr_amv,\n                max(etl_datetime) as etl_datetime\nfrom ads_ec.v_rt_s_ec_sa_dy_account_product_sale_cost_sum\n where media_typ_sign='商城'\nand date_typ='day' \nand flow_source_nam  in ('店铺页面' )\nand pay_dt in ('2024-11-01' ,'2024-11-02' ,'2024-11-03' ,'2024-11-04' ,'2024-11-05' )\n and product_cd in ('80001717' )   \ngroup by flow_source_nam,\n\t\tpay_dt,\n\t\tproduct_cd limit 5000",
+    "execTime": 219,
+    "content": [
+        {
+            "flow_source_nam": "店铺页面",
+            "pay_dt": "2024-11-05",
+            "product_cd": "80001717",
+            "total_gmv": 693,
+            "total_amv": 699,
+            "total_cost": null,
+            "product_pay_cnt": 5,
+            "pr_gmv": 693,
+            "pr_cnt": 5,
+            "pr_amv": 699,
+            "etl_datetime": "2024-11-28 14:01:22"
+        },
+        {
+            "flow_source_nam": "店铺页面",
+            "pay_dt": "2024-11-01",
+            "product_cd": "80001717",
+            "total_gmv": 1391.62,
+            "total_amv": 1258.2,
+            "total_cost": null,
+            "product_pay_cnt": 9,
+            "pr_gmv": 1391.62,
+            "pr_cnt": 10,
+            "pr_amv": 1258.2,
+            "etl_datetime": "2024-11-28 14:01:22"
+        },
+        {
+            "flow_source_nam": "店铺页面",
+            "pay_dt": "2024-11-02",
+            "product_cd": "80001717",
+            "total_gmv": 2403.32,
+            "total_amv": 2504.88,
+            "total_cost": null,
+            "product_pay_cnt": 18,
+            "pr_gmv": 2403.32,
+            "pr_cnt": 19,
+            "pr_amv": 2504.88,
+            "etl_datetime": "2024-11-28 14:01:22"
+        },
+        {
+            "flow_source_nam": "店铺页面",
+            "pay_dt": "2024-11-03",
+            "product_cd": "80001717",
+            "total_gmv": 1998.85,
+            "total_amv": 1674.68,
+            "total_cost": null,
+            "product_pay_cnt": 12,
+            "pr_gmv": 1998.85,
+            "pr_cnt": 15,
+            "pr_amv": 1674.68,
+            "etl_datetime": "2024-11-28 14:01:22"
+        },
+        {
+            "flow_source_nam": "店铺页面",
+            "pay_dt": "2024-11-04",
+            "product_cd": "80001717",
+            "total_gmv": 689,
+            "total_amv": 699,
+            "total_cost": null,
+            "product_pay_cnt": 5,
+            "pr_gmv": 689,
+            "pr_cnt": 5,
+            "pr_amv": 699,
+            "etl_datetime": "2024-11-28 14:01:22"
+        }
+    ],
+    "isSuccess": true
+}
