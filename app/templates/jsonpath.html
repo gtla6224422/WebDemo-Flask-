@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Read COCO</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="upload-section">
+            <label for="file-input">上传:</label>
+            <input type="file" id="file-input" accept=".txt">
+            <button id="browse-btn">浏览按钮</button>
+        </div>
+        <div class="extract-section">
+            <label for="field-input">提取字段:</label>
+            <input type="text" id="field-input" placeholder="输入字段名">
+            <button id="execute-btn">执行按钮</button>
+        </div>
+        <div class="result-section">
+            <textarea id="result-textarea" rows="20" cols="80" readonly></textarea>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.upload-section, .extract-section {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.upload-section label, .extract-section label {
+    margin-right: 10px;
+    color: green;
+}
+
+.upload-section input[type="file"], .extract-section input[type="text"] {
+    padding: 5px;
+    background-color: yellow;
+    border: 1px solid #ccc;
+}
+
+.upload-section button, .extract-section button {
+    padding: 5px 10px;
+    background-color: blue;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.result-section textarea {
+    width: 100%;
+    height: 300px;
+    background-color: yellow;
+    border: 1px solid #ccc;
+    resize: vertical;
+    font-family: monospace;
+    padding: 5px;
+}

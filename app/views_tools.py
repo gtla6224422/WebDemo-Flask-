@@ -30,6 +30,7 @@ def find_field_paths(data, field_name, current_path="$"):
                 new_path = f"{path}[{index}]"
                 _find_paths(item, new_path)
 
+
     _find_paths(data, current_path)
     return paths
 
