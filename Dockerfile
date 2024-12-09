@@ -1,5 +1,5 @@
-# 使用腾讯云的 Python 3.6.8 精简版镜像作为基础镜像
-FROM ccr.ccs.tencentyun.com/tencentos/python:3.6.8-slim
+# 第一阶段：构建阶段
+FROM python:3.6.8 AS builder
 
 # 安装必要的系统依赖
 RUN apt-get update && \
@@ -7,16 +7,28 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # 设置工作目录
-WORKDIR /app
+WORKDIR /
 
 # 将当前目录下的所有文件复制到容器的 /app 目录
-COPY . /app
+COPY . /
 
 # 安装项目依赖，使用国内 PyPI 镜像源
 RUN pip install --no-cache-dir -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 
+# 第二阶段：运行阶段
+FROM ccr.ccs.tencentyun.com/tencentos/python:3.6.8-slim
+
+# 设置工作目录
+WORKDIR /
+
+# 从构建阶段复制安装好的依赖
+COPY --from=builder /usr/local/lib/python3.6/site-packages /usr/local/lib/python3.6/site-packages
+
+# 将应用代码复制到运行时容器
+COPY . /
+
 # 暴露 Flask 应用的默认端口
-EXPOSE 5000
+EXPOSE 5003
 
 # 设置环境变量，确保 Flask 在生产环境中运行
 ENV FLASK_ENV=production
