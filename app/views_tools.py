@@ -153,8 +153,8 @@ def Sum_json():
 
 
 @Tools_bp.route('/Get_field', methods=['POST'])
-def Get_field():
-    """获取指定字段的所有唯一值"""
+def get_field():
+    """获取指定字段的所有值，并根据参数决定是否去重"""
     # 获取请求中的 JSON 数据
     if not request.is_json:
         logger.error("请求不是 JSON 格式")
@@ -166,6 +166,7 @@ def Get_field():
     data = request.get_json()
     logger.debug(f"接收到的 JSON 数据: {data}")
 
+    # 检查必要字段
     if not data or 'field_name' not in data:
         logger.error("缺少必要字段")
         return jsonify(
@@ -174,6 +175,7 @@ def Get_field():
         ), 400
 
     field_name = data.get('field_name')
+    distinct = data.get('distinct', 1)  # 默认启用去重
 
     # 获取当前应用的根目录
     app_root = os.path.dirname(os.path.abspath(__file__))
@@ -237,20 +239,23 @@ def Get_field():
             error=f"没有找到可提取的字段 '{field_name}'"
         ), 404
 
-    # 对字段值去重，并保持原始顺序
-    unique_matches = []
-    seen = set()
-    for value in matches:
-        if value not in seen:
-            unique_matches.append(value)
-            seen.add(value)
+    # 根据 distinct 参数决定是否去重
+    if distinct == 1:
+        # 对字段值去重，并保持原始顺序
+        unique_matches = []
+        seen = set()
+        for value in matches:
+            if value not in seen:
+                unique_matches.append(value)
+                seen.add(value)
+        matches = unique_matches
 
     # 返回结果
     response_data = {
         "status_code": 200,
         "message": "成功提取字段",
         "data": {
-            "fields": unique_matches
+            "fields": matches
         }
     }
 
