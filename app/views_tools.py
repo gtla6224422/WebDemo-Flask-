@@ -11,6 +11,7 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 Tools_bp = Blueprint('tools_bp', __name__)
+#公共方法，考虑提取
 def find_field_paths(data, field_name, current_path="$"):
     paths = []
 
