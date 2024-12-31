@@ -5,6 +5,10 @@ from flask import Blueprint, request, jsonify,json,current_app
 from .model.models import User # 导入 models 模块
 from . import create_app
 UserInfo_bp = Blueprint('UserInfo_bp', __name__)
+import logging
+
+#grafana-prometheus
+logging.basicConfig(level=logging.INFO,format='%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 
 @UserInfo_bp.route('/get_user', methods=['GET'])
 def get_user():

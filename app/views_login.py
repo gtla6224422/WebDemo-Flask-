@@ -5,11 +5,15 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 from .model import models  # 导入 models 模块
 from .form.forms import LoginForm, RegisterForm
 from flask_bcrypt import Bcrypt
+import logging
 
 # 创建蓝图
 login_bp = Blueprint('login_bp', __name__)
 
 bcrypt = Bcrypt()
+
+#grafana-prometheus
+logging.basicConfig(level=logging.INFO,format='%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 
 @login_bp.route('/')
 def index():

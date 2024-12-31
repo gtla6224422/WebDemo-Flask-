@@ -9,6 +9,8 @@ import json as simplejson
 # 配置日志
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
+#grafana-prometheus
+logging.basicConfig(level=logging.INFO,format='%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 
 Tools_bp = Blueprint('tools_bp', __name__)
 #公共方法，考虑提取
