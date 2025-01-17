@@ -1,16 +1,14 @@
-from flask import Blueprint, request, jsonify,json,current_app
+from flask import Blueprint, request, jsonify,json,Response
 #from .model.models import Order # 导入 models 模块
-from . import db
-import random,os
+import os
 from jsonpath_ng import parse
 import logging
 import json as simplejson
 
+
 # 配置日志
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
-#grafana-prometheus
-logging.basicConfig(level=logging.INFO,format='%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 
 Tools_bp = Blueprint('tools_bp', __name__)
 #公共方法，考虑提取
@@ -263,3 +261,5 @@ def get_field():
     }
 
     return jsonify(response_data), 200
+
+

@@ -6,9 +6,12 @@ from .model.models import User # 导入 models 模块
 from . import create_app
 UserInfo_bp = Blueprint('UserInfo_bp', __name__)
 import logging
+from prometheus_client import generate_latest, Counter, Gauge, Histogram
 
-#grafana-prometheus
-logging.basicConfig(level=logging.INFO,format='%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
+# 配置日志
+logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 @UserInfo_bp.route('/get_user', methods=['GET'])
 def get_user():
@@ -83,5 +86,5 @@ def GetUserInfo():
             "status_code": 10005,
             "error": "未找到具有指定角色的用户"
             }), 404
-    
-    return jsonify(user_data), 201
+    #return jsonify(user_data), 201
+
