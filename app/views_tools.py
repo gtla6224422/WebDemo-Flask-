@@ -262,4 +262,110 @@ def get_field():
 
     return jsonify(response_data), 200
 
+@Tools_bp.route('/Get_exp_field', methods=['POST'])
+def get_exp_field():
+    """获取指定字段的所有值，并根据参数决定是否去重"""
+    # 获取请求中的 JSON 数据
+    if not request.is_json:
+        logger.error("请求不是 JSON 格式")
+        return jsonify(
+            status_code=10002,
+            error="请求必须是 JSON 格式"
+        ), 400
 
+    data = request.get_json()
+    logger.debug(f"接收到的 JSON 数据: {data}")
+
+    # 检查必要字段
+    if not data or 'field_name' not in data or 'exp_field_name' not in data:
+        logger.error("缺少必要字段")
+        return jsonify(
+            status_code=10003,
+            error="缺少必要字段"
+        ), 400
+
+    field_name = data.get('field_name')
+    exp_field_name = data.get('exp_field_name')
+    distinct = data.get('distinct', 1)  # 默认启用去重
+
+    # 获取当前应用的根目录
+    app_root = os.path.dirname(os.path.abspath(__file__))
+    coco_file_path = os.path.join(app_root, 'coco.txt')
+
+    # 检查文件是否存在
+    if not os.path.exists(coco_file_path):
+        logger.error(f"coco.txt 文件未找到: {coco_file_path}")
+        return jsonify(
+            status_code=10004,
+            error="coco.txt 文件未找到"
+        ), 404
+
+    try:
+        # 读取 coco.txt 文件内容，指定编码为 UTF-8 并处理 BOM
+        with open(coco_file_path, 'r', encoding='utf-8-sig') as file:
+            coco_data = json.load(file)
+            logger.debug(f"成功读取 coco.txt 文件: {coco_data}")
+    except FileNotFoundError:
+        logger.error(f"coco.txt 文件未找到: {coco_file_path}")
+        return jsonify(
+            status_code=10004,
+            error="coco.txt 文件未找到"
+        ), 404
+    except json.JSONDecodeError as e:
+        logger.error(f"coco.txt 文件内容不是有效的 JSON 格式: {str(e)}")
+        return jsonify(
+            status_code=10005,
+            error="coco.txt 文件内容不是有效的 JSON 格式"
+        ), 400
+    except UnicodeDecodeError as e:
+        logger.error(f"无法解码文件: {str(e)}")
+        return jsonify(
+            status_code=10005,
+            error="无法解码文件"
+        ), 400
+
+    def find_fields_at_same_level(data, target_field, exp_field):
+        results = []
+        if isinstance(data, dict):
+            for key, value in data.items():
+                if key == target_field:
+                    if exp_field in data:
+                        results.append(data[exp_field])
+                elif isinstance(value, (dict, list)):
+                    results.extend(find_fields_at_same_level(value, target_field, exp_field))
+        elif isinstance(data, list):
+            for item in data:
+                results.extend(find_fields_at_same_level(item, target_field, exp_field))
+        return results
+
+    # 查找所有包含指定字段名的同层 exp_field_name 字段
+    matches = find_fields_at_same_level(coco_data, field_name, exp_field_name)
+
+    if not matches:
+        logger.error(f"没有找到字段 '{field_name}' 或其同层字段 '{exp_field_name}'")
+        return jsonify(
+            status_code=10007,
+            error=f"没有找到字段 '{field_name}' 或其同层字段 '{exp_field_name}'"
+        ), 404
+
+    # 根据 distinct 参数决定是否去重
+    if distinct == 1:
+        # 对字段值去重，并保持原始顺序
+        unique_matches = []
+        seen = set()
+        for value in matches:
+            if value not in seen:
+                unique_matches.append(value)
+                seen.add(value)
+        matches = unique_matches
+
+    # 返回结果
+    response_data = {
+        "status_code": 200,
+        "message": "成功提取字段",
+        "data": {
+            "fields": matches
+        }
+    }
+
+    return jsonify(response_data), 200
