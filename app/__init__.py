@@ -15,7 +15,7 @@ app = None
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
-
+    app.json.ensure_ascii = False  # 确保在扩展初始化前设置   
     # 配置DEBUG模式
     app.config['DEBUG'] = True
     # 初始化数据库
@@ -39,7 +39,6 @@ def create_app():
     app.register_blueprint(Order_bp,__name__ = 'Order_bp')
     app.register_blueprint(Tools_bp,__name__ = 'tools_bp')
     app.register_blueprint(Log_bp,__name__ = 'log_bp')
-
     return app
 
 
