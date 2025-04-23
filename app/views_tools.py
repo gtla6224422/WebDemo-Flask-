@@ -376,7 +376,7 @@ def get_exp_field():
 
 @Tools_bp.route('/Get_json', methods=['POST'])
 def get_json():
-    """获取所有指定字段等于给定值的节点"""
+    """查询符合条件的字段所有节点"""
     # 获取请求中的 JSON 数据
     if not request.is_json:
         logger.error("请求不是 JSON 格式")
