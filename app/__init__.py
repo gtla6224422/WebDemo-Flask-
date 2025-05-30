@@ -15,7 +15,8 @@ app = None
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
-    app.json.ensure_ascii = False  # 确保在扩展初始化前设置   
+    #app.json.ensure_ascii = False   
+    app.config["JSON_AS_ASCII"] = False 
     # 配置DEBUG模式
     app.config['DEBUG'] = True
     # 初始化数据库
