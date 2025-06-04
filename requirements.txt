@@ -13,3 +13,5 @@ PyMySQL==1.0.2
 SQLAlchemy==2.0.36
 Werkzeug==3.0.6
 WTForms==3.0.1
+prometheus_flask_exporter==0.23.1
+prometheus_client==0.21.1
