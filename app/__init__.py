@@ -10,6 +10,7 @@ from .views_log import Log_bp
 from flask_migrate import migrate
 import redis
 from prometheus_flask_exporter import PrometheusMetrics
+from .monitoring import PrometheusMonitor
 
 app = None
 def create_app():
@@ -18,6 +19,13 @@ def create_app():
     #app.config["JSON_AS_ASCII"] = False 
     app.json.ensure_ascii = False   
     app.config.from_object(Config)
+
+    # 初始化监控工具-1
+    monitor = PrometheusMonitor()
+    # 初始化监控工具并传入app-2
+    monitor.init_app(app)
+
+
     # 配置DEBUG模式
     app.config['DEBUG'] = True
     # 初始化数据库
@@ -41,6 +49,7 @@ def create_app():
     app.register_blueprint(Order_bp,__name__ = 'Order_bp')
     app.register_blueprint(Tools_bp,__name__ = 'tools_bp')
     app.register_blueprint(Log_bp,__name__ = 'log_bp')
+
     return app
 
 

@@ -1,17 +1,21 @@
 # -*- coding: utf-8 -*-
-from flask import Blueprint, request, jsonify,json,Response
+from flask import Blueprint, request, jsonify,json,Response,g
 #from .model.models import Order # 导入 models 模块
 import os
 from jsonpath_ng import parse
 import logging
 import json as simplejson
-
+from .monitoring import PrometheusMonitor  
 
 # 配置日志
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 Tools_bp = Blueprint('tools_bp', __name__)
+
+# 获取监控工具实例
+monitor = PrometheusMonitor()
+
 #公共方法，考虑提取
 def find_field_paths(data, field_name, current_path="$"):
     paths = []
@@ -376,6 +380,11 @@ def get_exp_field():
 
 @Tools_bp.route('/Get_json', methods=['POST'])
 def get_json():
+
+    """查询符合条件的字段所有节点"""
+    # 记录自定义指标（可选）
+    g.custom_metric = "Get_json_operation"
+
     """查询符合条件的字段所有节点"""
     # 获取请求中的 JSON 数据
     if not request.is_json:
