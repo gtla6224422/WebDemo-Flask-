@@ -5,7 +5,7 @@ import os
 from jsonpath_ng import parse
 import logging
 import json as simplejson
-from .monitoring import PrometheusMonitor  
+from .monitoring import PrometheusMonitor
 
 # 配置日志
 logging.basicConfig(level=logging.DEBUG)
