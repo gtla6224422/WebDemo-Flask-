@@ -1,10 +1,6 @@
-app==0.0.1
 alembic==1.14.0
-Flask==3.0.3
 Flask_Bcrypt==1.0.1
 Flask_Migrate==4.0.7
-Flask-SQLAlchemy==3.1.1
-Flask-WTF==1.2.1
 importlib_metadata==8.5.0
 jsonpath_ng==1.7.0
 lxml==5.3.0
@@ -12,10 +8,7 @@ numpy==1.24.4
 prometheus_client==0.21.1
 prometheus_flask_exporter==0.23.1
 PyMySQL==1.1.1
+pywin32==310
 redis==5.2.0
 SQLAlchemy==2.0.36
 zipp==3.20.2
-Werkzeug==3.0.6
-WTForms==3.0.1
-greenlet==3.1.1
-Jinja2==3.1.4
