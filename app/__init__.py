@@ -3,8 +3,8 @@
 from flask import Flask, request
 from .conf.config import Config
 from .model.models import db
-from .views_login import login_bp,bcrypt # 导入蓝图
-from .views_order import Order_bp # 导入蓝图
+from .views_login import login_bp,bcrypt
+from .views_order import Order_bp
 from .views_tools import Tools_bp
 from .views_log import Log_bp
 from flask_migrate import migrate
